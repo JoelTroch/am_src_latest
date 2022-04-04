@@ -1,0 +1,4 @@
+*_map.txt
+release/*.dbg
+release/*.so
+release/obj/*

@@ -1,0 +1,168 @@
+#
+# Am game library Makefile for x86 Linux
+#
+# Feb 2015 by Joël Troch (shepard62700fr@gmail.com)
+# based on HL game library Makefile for x86 Linux
+# Feb 2001 by Leon Hartwig (hartwig@valvesoftware.com)
+#
+
+AMDLL_SRC_DIR=$(SOURCE_DIR)/dlls
+
+AMDLL_OBJ_DIR=$(BUILD_OBJ_DIR)/amdll
+PM_OBJ_DIR=$(AMDLL_OBJ_DIR)/pm_shared
+GAME_SHARED_OBJ_DIR=$(AMDLL_OBJ_DIR)/game_shared
+
+#CFLAGS=$(BASE_CFLAGS) $(ARCH_CFLAGS) $(SHLIBCFLAGS) -DCLIENT_WEAPONS
+CFLAGS=$(BASE_CFLAGS)  $(ARCH_CFLAGS)  -DCLIENT_WEAPONS
+#-O3 -ffast-math -fno-strength-reduce
+
+AMDLL_INCLUDEDIRS=-I$(ENGINE_SRC_DIR) -I$(COMMON_SRC_DIR) -I$(PM_SRC_DIR) -I$(GAME_SHARED_SRC_DIR) -I$(PUBLIC_SRC_DIR)
+PM_INCLUDEDIRS=-I$(COMMON_SRC_DIR)  -I$(PUBLIC_SRC_DIR)
+GAME_SHARED_INCLUDEDIRS=-I$(AMDLL_SRC_DIR) -I$(ENGINE_SRC_DIR) -I$(COMMON_SRC_DIR) -I$(PM_SRC_DIR) -I$(PUBLIC_SRC_DIR)
+
+LDFLAGS= -lm -lstdc++
+
+DO_AMDLL_CC=$(CC) $(AMDLL_INCLUDEDIRS) $(CFLAGS) -o $@ -c $<
+DO_PM_CC=$(CC) $(PM_INCLUDEDIRS) $(CFLAGS) -o $@ -c $<
+DO_GAME_SHARED_CC=$(CC) $(GAME_SHARED_INCLUDEDIRS) $(CFLAGS) -o $@ -c $<
+
+#####################################################################
+
+AMDLL_OBJS = \
+	$(AMDLL_OBJ_DIR)/aflock.o \
+	$(AMDLL_OBJ_DIR)/agrunt.o \
+	$(AMDLL_OBJ_DIR)/airtank.o \
+	$(AMDLL_OBJ_DIR)/am_ammo.o \
+	$(AMDLL_OBJ_DIR)/am_weapons.o \
+	$(AMDLL_OBJ_DIR)/am_weapons_system.o \
+	$(AMDLL_OBJ_DIR)/animating.o \
+	$(AMDLL_OBJ_DIR)/animation.o \
+	$(AMDLL_OBJ_DIR)/apache.o \
+	$(AMDLL_OBJ_DIR)/barnacle.o \
+	$(AMDLL_OBJ_DIR)/barney.o \
+	$(AMDLL_OBJ_DIR)/bigmomma.o \
+	$(AMDLL_OBJ_DIR)/bloater.o \
+	$(AMDLL_OBJ_DIR)/bmodels.o \
+	$(AMDLL_OBJ_DIR)/bullsquid.o \
+	$(AMDLL_OBJ_DIR)/buttons.o \
+	$(AMDLL_OBJ_DIR)/cbase.o \
+	$(AMDLL_OBJ_DIR)/CBaseHuman.o \
+	$(AMDLL_OBJ_DIR)/client.o \
+	$(AMDLL_OBJ_DIR)/combat.o \
+	$(AMDLL_OBJ_DIR)/controller.o \
+	$(AMDLL_OBJ_DIR)/defaultai.o \
+	$(AMDLL_OBJ_DIR)/doors.o \
+	$(AMDLL_OBJ_DIR)/effects.o \
+	$(AMDLL_OBJ_DIR)/env_rope.o \
+	$(AMDLL_OBJ_DIR)/explode.o \
+	$(AMDLL_OBJ_DIR)/extraEffects.o \
+	$(AMDLL_OBJ_DIR)/ext_player.o \
+	$(AMDLL_OBJ_DIR)/flyingmonster.o \
+	$(AMDLL_OBJ_DIR)/func_break.o \
+	$(AMDLL_OBJ_DIR)/func_tank.o \
+	$(AMDLL_OBJ_DIR)/game.o \
+	$(AMDLL_OBJ_DIR)/gamerules.o \
+	$(AMDLL_OBJ_DIR)/gargantua.o \
+	$(AMDLL_OBJ_DIR)/genericmonster.o \
+	$(AMDLL_OBJ_DIR)/ggrenade.o \
+	$(AMDLL_OBJ_DIR)/globals.o \
+	$(AMDLL_OBJ_DIR)/gman.o \
+	$(AMDLL_OBJ_DIR)/h_ai.o \
+	$(AMDLL_OBJ_DIR)/h_battery.o \
+	$(AMDLL_OBJ_DIR)/h_cine.o \
+	$(AMDLL_OBJ_DIR)/h_cycler.o \
+	$(AMDLL_OBJ_DIR)/h_export.o \
+	$(AMDLL_OBJ_DIR)/hassassin.o \
+	$(AMDLL_OBJ_DIR)/headcrab.o \
+	$(AMDLL_OBJ_DIR)/healthkit.o \
+	$(AMDLL_OBJ_DIR)/hgrunt.o \
+	$(AMDLL_OBJ_DIR)/hornet.o \
+	$(AMDLL_OBJ_DIR)/houndeye.o \
+	$(AMDLL_OBJ_DIR)/ichthyosaur.o \
+	$(AMDLL_OBJ_DIR)/islave.o \
+	$(AMDLL_OBJ_DIR)/items.o \
+	$(AMDLL_OBJ_DIR)/leech.o \
+	$(AMDLL_OBJ_DIR)/lensFlareEnt.o \
+	$(AMDLL_OBJ_DIR)/lights.o \
+	$(AMDLL_OBJ_DIR)/maprules.o \
+	$(AMDLL_OBJ_DIR)/monstermaker.o \
+	$(AMDLL_OBJ_DIR)/monsters.o \
+	$(AMDLL_OBJ_DIR)/monsterstate.o \
+	$(AMDLL_OBJ_DIR)/mortar.o \
+	$(AMDLL_OBJ_DIR)/nihilanth.o \
+	$(AMDLL_OBJ_DIR)/nodes.o \
+	$(AMDLL_OBJ_DIR)/observer.o \
+	$(AMDLL_OBJ_DIR)/osprey.o \
+	$(AMDLL_OBJ_DIR)/particle_emitter.o \
+	$(AMDLL_OBJ_DIR)/pathcorner.o \
+	$(AMDLL_OBJ_DIR)/plane.o \
+	$(AMDLL_OBJ_DIR)/plats.o \
+	$(AMDLL_OBJ_DIR)/player.o \
+	$(AMDLL_OBJ_DIR)/rat.o \
+	$(AMDLL_OBJ_DIR)/roach.o \
+	$(AMDLL_OBJ_DIR)/schedule.o \
+	$(AMDLL_OBJ_DIR)/scientist.o \
+	$(AMDLL_OBJ_DIR)/scripted.o \
+	$(AMDLL_OBJ_DIR)/skill.o \
+	$(AMDLL_OBJ_DIR)/sound.o \
+	$(AMDLL_OBJ_DIR)/soundent.o \
+	$(AMDLL_OBJ_DIR)/spectator.o \
+	$(AMDLL_OBJ_DIR)/squadmonster.o \
+	$(AMDLL_OBJ_DIR)/squeakgrenade.o \
+	$(AMDLL_OBJ_DIR)/subs.o \
+	$(AMDLL_OBJ_DIR)/talkmonster.o \
+	$(AMDLL_OBJ_DIR)/teamplay_gamerules.o \
+	$(AMDLL_OBJ_DIR)/multiplay_gamerules.o \
+	$(AMDLL_OBJ_DIR)/singleplay_gamerules.o \
+	$(AMDLL_OBJ_DIR)/tempmonster.o \
+	$(AMDLL_OBJ_DIR)/tentacle.o \
+	$(AMDLL_OBJ_DIR)/terror_Test.o \
+	$(AMDLL_OBJ_DIR)/triggers.o \
+	$(AMDLL_OBJ_DIR)/tripmine.o \
+	$(AMDLL_OBJ_DIR)/turret.o \
+	$(AMDLL_OBJ_DIR)/util.o \
+	$(AMDLL_OBJ_DIR)/weapons.o \
+	$(AMDLL_OBJ_DIR)/weapon_fists.o \
+	$(AMDLL_OBJ_DIR)/weapon_hegrenade.o \
+	$(AMDLL_OBJ_DIR)/weapon_knife.o \
+	$(AMDLL_OBJ_DIR)/weapon_rpg.o \
+	$(AMDLL_OBJ_DIR)/weapon_semtex.o \
+	$(AMDLL_OBJ_DIR)/world.o \
+	$(AMDLL_OBJ_DIR)/xen.o \
+	$(AMDLL_OBJ_DIR)/zombie.o
+
+PM_OBJS = \
+	$(PM_OBJ_DIR)/pm_shared.o \
+	$(PM_OBJ_DIR)/pm_math.o \
+	$(PM_OBJ_DIR)/pm_debug.o
+
+GAME_SHARED_OBJS = \
+	$(GAME_SHARED_OBJ_DIR)/voice_gamemgr.o
+
+all: dirs am.$(SHLIBEXT)
+
+dirs:
+	-mkdir $(BUILD_OBJ_DIR)
+	-mkdir $(AMDLL_OBJ_DIR)
+	-mkdir $(PM_OBJ_DIR)
+	-mkdir $(GAME_SHARED_OBJ_DIR)
+
+am.$(SHLIBEXT): $(AMDLL_OBJS) $(PM_OBJS) $(GAME_SHARED_OBJS)
+	$(CC) $(LDFLAGS) $(SHLIBLDFLAGS) -o $(BUILD_DIR)/$@ $(AMDLL_OBJS) $(PM_OBJS) $(GAME_SHARED_OBJS)
+	./gendbg.sh $(BUILD_DIR)/am.$(SHLIBEXT)
+	
+
+$(AMDLL_OBJ_DIR)/%.o : $(AMDLL_SRC_DIR)/%.cpp
+	$(DO_AMDLL_CC)
+
+$(PM_OBJ_DIR)/%.o : $(PM_SRC_DIR)/%.c
+	$(DO_PM_CC)
+
+$(GAME_SHARED_OBJ_DIR)/%.o : $(GAME_SHARED_SRC_DIR)/%.cpp
+	$(DO_GAME_SHARED_CC)
+
+clean:
+	-rm -rf $(GAME_SHARED_OBJ_DIR)
+	-rm -rf $(PM_OBJ_DIR)
+	-rm -rf $(AMDLL_OBJ_DIR)
+	-rm -f am_$(ARCH).$(SHLIBEXT)

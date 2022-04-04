@@ -1,0 +1,206 @@
+#
+# launcher Makefile for x86 Linux
+#
+#
+
+AM_SRC_DIR=$(SOURCE_DIR)/cl_dll
+GAME_SHARED_SRC_DIR=$(SOURCE_DIR)/game_shared
+PM_SHARED_SRC_DIR=$(SOURCE_DIR)/pm_shared
+
+AM_OBJ_DIR=$(BUILD_OBJ_DIR)/am_client
+PUBLIC_OBJ_DIR=$(AM_OBJ_DIR)/public
+COMMON_OBJ_DIR=$(AM_OBJ_DIR)/common
+GAME_SHARED_OBJ_DIR=$(AM_OBJ_DIR)/game_shared
+PM_SHARED_OBJ_DIR=$(AM_OBJ_DIR)/pm_shared
+
+CFLAGS=$(BASE_CFLAGS) $(ARCH_CFLAGS) -DCLIENT_DLL -DCLIENT_WEAPONS -DHL_DLL -I/usr/include/malloc -D_snwprintf=swprintf \
+		 -DDISABLE_JUMP_ORIGIN -DDISABLE_VEC_ORIGIN
+		 
+INCLUDEDIRS=-I$(AM_SRC_DIR) -I../dlls -I../tfc -I$(COMMON_SRC_DIR) -I$(PUBLIC_SRC_DIR) -I../pm_shared -I../engine -I../utils/vgui/include -I ../game_shared -I../external
+
+ifeq ($(OS),Darwin)
+LDFLAGS=$(SHLIBLDFLAGS) $(CPP_LIB) -framework Carbon $(CFG)/vgui.dylib -L. -lSDL2-2.0.0
+else
+LDFLAGS=$(SHLIBLDFLAGS) $(CPP_LIB)  -L$(CFG) vgui.so -L. libSDL2-2.0.so.0
+endif
+
+DO_CC=$(CPLUS) $(INCLUDEDIRS) $(CFLAGS) -o $@ -c $<
+DO_PUBLIC_CC=$(CPLUS) $(COMMON_INCLUDEDIRS) $(CFLAGS) $(SHLIBCFLAGS) -o $@ -c $<
+DO_COMMON_CC=$(CPLUS) $(INCLUDEDIRS)  $(CFLAGS) $(SHLIBCFLAGS) -o $@ -c $<
+DO_PM_SHARED_CC=$(CC) $(INCLUDEDIRS)  $(CFLAGS) $(SHLIBCFLAGS) -o $@ -c $<
+
+#####################################################################
+
+AM_OBJS = \
+	$(AM_OBJ_DIR)/hud_spectator.o \
+	$(AM_OBJ_DIR)/ev_hldm.o \
+	$(AM_OBJ_DIR)/hl/hl_baseentity.o \
+	$(AM_OBJ_DIR)/hl/hl_events.o \
+	$(AM_OBJ_DIR)/hl/hl_objects.o \
+	$(AM_OBJ_DIR)/hl/hl_weapons.o \
+	$(AM_OBJ_DIR)/hud.o \
+	$(AM_OBJ_DIR)/inputw32.o \
+	$(AM_OBJ_DIR)/ammo.o \
+	$(AM_OBJ_DIR)/ammo_secondary.o \
+	$(AM_OBJ_DIR)/ammohistory.o \
+	$(AM_OBJ_DIR)/battery.o \
+	$(AM_OBJ_DIR)/blur.o \
+	$(AM_OBJ_DIR)/cdll_int.o \
+	$(AM_OBJ_DIR)/ColorCorrection.o \
+	$(AM_OBJ_DIR)/com_weapons.o \
+	$(AM_OBJ_DIR)/death.o \
+	$(AM_OBJ_DIR)/demo.o \
+	$(AM_OBJ_DIR)/entity.o \
+	$(AM_OBJ_DIR)/ev_common.o \
+	$(AM_OBJ_DIR)/events.o \
+	$(AM_OBJ_DIR)/fireSystem.o \
+	$(AM_OBJ_DIR)/fmod_engine.o \
+	$(AM_OBJ_DIR)/GameStudioModelRenderer.o \
+	$(AM_OBJ_DIR)/geiger.o \
+	$(AM_OBJ_DIR)/glmanager.o \
+	$(AM_OBJ_DIR)/glow.o \
+	$(AM_OBJ_DIR)/glows.o \
+	$(AM_OBJ_DIR)/glStuff.o \
+	$(AM_OBJ_DIR)/gl_cubemaploader.o \
+	$(AM_OBJ_DIR)/gl_debug.o \
+	$(AM_OBJ_DIR)/gl_decals.o \
+	$(AM_OBJ_DIR)/gl_lightmap.o \
+	$(AM_OBJ_DIR)/gl_light_dynamic.o \
+	$(AM_OBJ_DIR)/gl_model.o \
+	$(AM_OBJ_DIR)/gl_postprocess.o \
+	$(AM_OBJ_DIR)/gl_raindrops.o \
+	$(AM_OBJ_DIR)/gl_renderer.o \
+	$(AM_OBJ_DIR)/gl_rsurf.o \
+	$(AM_OBJ_DIR)/gl_shaders.o \
+	$(AM_OBJ_DIR)/gl_shadows.o \
+	$(AM_OBJ_DIR)/gl_sky.o \
+	$(AM_OBJ_DIR)/gl_studiobump.o \
+	$(AM_OBJ_DIR)/gl_studiodecals.o \
+	$(AM_OBJ_DIR)/gl_studiomodel.o \
+	$(AM_OBJ_DIR)/gl_studiovbo.o \
+	$(AM_OBJ_DIR)/gl_texloader.o \
+	$(AM_OBJ_DIR)/gl_water.o \
+	$(AM_OBJ_DIR)/gui/cgui.o \
+	$(AM_OBJ_DIR)/gui/cguiimage.o \
+	$(AM_OBJ_DIR)/gui/cguipanel.o \
+	$(AM_OBJ_DIR)/health.o \
+	$(AM_OBJ_DIR)/hud_bench.o \
+	$(AM_OBJ_DIR)/hud_benchtrace.o \
+	$(AM_OBJ_DIR)/hud_crosshair.o \
+	$(AM_OBJ_DIR)/hud_msg.o \
+	$(AM_OBJ_DIR)/hud_redraw.o \
+	$(AM_OBJ_DIR)/hud_update.o \
+	$(AM_OBJ_DIR)/in_camera.o \
+	$(AM_OBJ_DIR)/input.o \
+	$(AM_OBJ_DIR)/interpolation.o \
+	$(AM_OBJ_DIR)/lensFlare.o \
+	$(AM_OBJ_DIR)/menu.o \
+	$(AM_OBJ_DIR)/message.o \
+	$(AM_OBJ_DIR)/particle_engine.o \
+	$(AM_OBJ_DIR)/pvscheck.o \
+	$(AM_OBJ_DIR)/quake_bsp.o \
+	$(AM_OBJ_DIR)/rain.o \
+	$(AM_OBJ_DIR)/saytext.o \
+	$(AM_OBJ_DIR)/screenFog.o \
+	$(AM_OBJ_DIR)/SSAO.o \
+	$(AM_OBJ_DIR)/status_icons.o \
+	$(AM_OBJ_DIR)/statusbar.o \
+	$(AM_OBJ_DIR)/studio_util.o \
+	$(AM_OBJ_DIR)/StudioModelRenderer.o \
+	$(AM_OBJ_DIR)/text_message.o \
+	$(AM_OBJ_DIR)/train.o \
+	$(AM_OBJ_DIR)/tri.o \
+	$(AM_OBJ_DIR)/tri_rope.o \
+	$(AM_OBJ_DIR)/util.o \
+	$(AM_OBJ_DIR)/view.o \
+	$(AM_OBJ_DIR)/vgui_int.o \
+	$(AM_OBJ_DIR)/vgui_ClassMenu.o \
+	$(AM_OBJ_DIR)/vgui_ConsolePanel.o \
+	$(AM_OBJ_DIR)/vgui_ControlConfigPanel.o \
+	$(AM_OBJ_DIR)/vgui_CustomObjects.o \
+	$(AM_OBJ_DIR)/vgui_MOTDWindow.o \
+	$(AM_OBJ_DIR)/vgui_OS.o \
+	$(AM_OBJ_DIR)/vgui_SchemeManager.o \
+	$(AM_OBJ_DIR)/vgui_ScorePanel.o \
+	$(AM_OBJ_DIR)/vgui_ServerBrowser.o \
+	$(AM_OBJ_DIR)/vgui_shepard_easter_egg.o \
+	$(AM_OBJ_DIR)/vgui_subtitles.o \
+	$(AM_OBJ_DIR)/vgui_TeamFortressViewport.o \
+	$(AM_OBJ_DIR)/vgui_tips.o \
+	$(AM_OBJ_DIR)/vgui_SpectatorPanel.o \
+	$(AM_OBJ_DIR)/vgui_teammenu.o \
+	$(AM_OBJ_DIR)/voice_status.o \
+	$(AM_OBJ_DIR)/weapon_manager.o \
+	$(AM_OBJ_DIR)/hud_servers.o \
+
+PUBLIC_OBJS = \
+	$(PUBLIC_OBJ_DIR)/interface.o \
+
+COMMON_OBJS = \
+	$(COMMON_OBJ_DIR)/fileLoader.o \
+	$(COMMON_OBJ_DIR)/parsemsg.o \
+
+GAME_SHARED_OBJS = \
+	$(GAME_SHARED_OBJ_DIR)/vgui_checkbutton2.o \
+	$(GAME_SHARED_OBJ_DIR)/vgui_grid.o \
+	$(GAME_SHARED_OBJ_DIR)/vgui_helpers.o \
+	$(GAME_SHARED_OBJ_DIR)/vgui_listbox.o \
+	$(GAME_SHARED_OBJ_DIR)/vgui_loadtga.o \
+	$(GAME_SHARED_OBJ_DIR)/vgui_scrollbar2.o \
+	$(GAME_SHARED_OBJ_DIR)/vgui_slider2.o \
+	$(GAME_SHARED_OBJ_DIR)/voice_banmgr.o \
+	
+PM_SHARED_OBJS = \
+	$(PM_SHARED_OBJ_DIR)/pm_debug.o \
+	$(PM_SHARED_OBJ_DIR)/pm_shared.o \
+	$(PM_SHARED_OBJ_DIR)/pm_math.o \
+	
+
+
+all: client.$(SHLIBEXT)
+
+client.$(SHLIBEXT): $(AM_OBJS) $(PUBLIC_OBJS) $(COMMON_OBJS) $(GAME_SHARED_OBJS) $(PM_SHARED_OBJS)
+	$(CLINK) -o $(BUILD_DIR)/$@ $(AM_OBJS) $(PUBLIC_OBJS) $(COMMON_OBJS) $(GAME_SHARED_OBJS) $(PM_SHARED_OBJS) $(LDFLAGS) $(CPP_LIB)
+	./gendbg.sh $(BUILD_DIR)/client.$(SHLIBEXT)
+
+$(AM_OBJ_DIR):
+	mkdir -p $(AM_OBJ_DIR)
+	mkdir -p $(AM_OBJ_DIR)/hl
+	mkdir -p $(AM_OBJ_DIR)/VGUI
+
+$(PUBLIC_OBJ_DIR):
+	mkdir -p $(PUBLIC_OBJ_DIR)
+
+$(COMMON_OBJ_DIR):
+	mkdir -p $(COMMON_OBJ_DIR)
+
+$(GAME_SHARED_OBJ_DIR):
+	mkdir -p $(GAME_SHARED_OBJ_DIR)
+
+$(PM_SHARED_OBJ_DIR):
+	mkdir -p $(PM_SHARED_OBJ_DIR)
+
+$(AM_OBJ_DIR)/%.o: $(AM_SRC_DIR)/%.cpp $(filter-out $(wildcard  $(AM_OBJ_DIR)),  $(AM_OBJ_DIR))
+	$(DO_CC)
+
+$(AM_OBJ_DIR)/%.o: $(AM_SRC_DIR)/hl/%.cpp $(filter-out $(wildcard  $(AM_OBJ_DIR)),  $(AM_OBJ_DIR))
+	$(DO_CC)
+
+$(AM_OBJ_DIR)/%.o: $(AM_SRC_DIR)/VGUI/%.cpp $(filter-out $(wildcard  $(AM_OBJ_DIR)),  $(AM_OBJ_DIR))
+	$(DO_CC)
+
+$(PUBLIC_OBJ_DIR)/%.o : $(PUBLIC_SRC_DIR)/%.cpp $(filter-out $(wildcard  $(PUBLIC_OBJ_DIR)),  $(PUBLIC_OBJ_DIR))
+	$(DO_PUBLIC_CC)
+
+$(COMMON_OBJ_DIR)/%.o : $(COMMON_SRC_DIR)/%.cpp $(filter-out $(wildcard  $(COMMON_OBJ_DIR)),  $(COMMON_OBJ_DIR))
+	$(DO_COMMON_CC)
+
+$(GAME_SHARED_OBJ_DIR)/%.o : $(GAME_SHARED_SRC_DIR)/%.cpp $(filter-out $(wildcard  $(GAME_SHARED_OBJ_DIR)),  $(GAME_SHARED_OBJ_DIR))
+	$(DO_COMMON_CC)
+
+$(PM_SHARED_OBJ_DIR)/%.o : $(PM_SHARED_SRC_DIR)/%.c $(filter-out $(wildcard  $(PM_SHARED_OBJ_DIR)),  $(PM_SHARED_OBJ_DIR))
+	$(DO_PM_SHARED_CC)
+
+clean:
+	-rm -rf $(AM_OBJ_DIR)
+	-rm -f client.$(SHLIBEXT)
